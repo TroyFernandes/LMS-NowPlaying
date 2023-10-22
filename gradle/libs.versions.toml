@@ -1,0 +1,72 @@
+[versions]
+androidGradlePlugin = "8.1.2"
+androidLibrary = "8.1.1"
+kotlinAndroid = "1.9.10"
+androidxComposeCompiler = "1.5.3"
+coreKtx = "1.12.0"
+splashScreen = "1.0.1"
+activityCompose = "1.8.0"
+composeBOM = "2023.10.00"
+tvFoundation = "1.0.0-alpha10"
+tvMaterial = "1.0.0-alpha09"
+okhttp = "4.11.0"
+okhttplogging = "4.9.1"
+retrofit = "2.9.0"
+retrofit-converter = "2.9.0"
+material3 = "1.1.2"
+material3-icon = "1.6.0-alpha07"
+coil = "2.4.0"
+runtime-livedata = "1.5.3"
+volley ="1.2.1"
+kotlin-stdlib = "1.9.10"
+coil-transformations = "2.0.2"
+jellyfin-sdk = "1.4.4"
+secrets-gradle-plugin = "2.0.1"
+
+[libraries]
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen"}
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBOM" }
+ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+
+tv-foundation = { module = "androidx.tv:tv-foundation", version.ref = "tvFoundation" }
+tv-material = { module = "androidx.tv:tv-material", version.ref = "tvMaterial" }
+
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttplogging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttplogging" }
+
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-converter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit-converter" }
+
+material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+material3-icons = { module = "androidx.compose.material:material-icons-extended", version.ref = "material3-icon" }
+
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+coil-transformations ={ module = "com.github.Commit451:coil-transformations", version.ref = "coil-transformations" }
+
+runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "runtime-livedata" }
+
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin-stdlib" }
+
+jellyfin-sdk = { module = "org.jellyfin.sdk:jellyfin-core", version.ref = "jellyfin-sdk" }
+
+secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "secrets-gradle-plugin" }
+
+
+[bundles]
+androidx-compose-bom = ["compose-bom", "ui-tooling"]
+androidx-tv-compose = ["tv-foundation", "tv-material"]
+okhttp = ["okhttp", "okhttplogging"]
+retrofit =["retrofit", "retrofit-converter"]
+material3 = ["material3", "material3-icons"]
+coil = ["coil", "coil-compose", "coil-transformations"]
+
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidLibrary" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroid" }
+secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin"}
