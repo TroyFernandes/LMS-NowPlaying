@@ -19,6 +19,7 @@ import androidx.compose.material.icons.outlined.SkipNext
 import androidx.compose.material.icons.outlined.SkipPrevious
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,6 +34,7 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,14 +63,22 @@ import okhttp3.OkHttpClient
 @Composable
 @Preview(heightDp = 540, widthDp = 960)
 fun SecondaryScreen(){
+    val currentView = LocalView.current
+    DisposableEffect(Unit){
+        currentView.keepScreenOn = true
+        onDispose {
+            currentView.keepScreenOn = false
+        }
+    }
+
     Box(contentAlignment = Alignment.Center, modifier = Modifier
         .background(Color.Blue)
         .onKeyEvent {
             CoroutineScope(Dispatchers.IO).launch {
                 HandleButton(it)
             }
-        false
-    }
+            false
+        }
         .fillMaxSize()) {
         PlayerScreen()
     }
@@ -144,7 +154,9 @@ fun PlayerScreen(){
                     Spacer(modifier = Modifier.size(10.dp))
 
                     Text(artistName, color = Color.White, maxLines = 1,
-                            modifier = Modifier.width(500.dp).basicMarquee()
+                            modifier = Modifier
+                                .width(500.dp)
+                                .basicMarquee()
                         )
                 }
             }
