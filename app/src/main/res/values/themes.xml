@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Theme.ComposeForTV" parent="">
+    <style name="Theme.LMSNowPlaying" parent="">
         <item name="android:windowNoTitle">true</item>
     </style>
 
@@ -8,6 +8,6 @@
         <item name="windowSplashScreenBackground">@android:color/white</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
         <item name="windowSplashScreenAnimationDuration">1000</item>
-        <item name="postSplashScreenTheme">@style/Theme.ComposeForTV</item>
+        <item name="postSplashScreenTheme">@style/Theme.LMSNowPlaying</item>
     </style>
 </resources>
