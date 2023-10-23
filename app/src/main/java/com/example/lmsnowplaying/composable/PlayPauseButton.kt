@@ -23,11 +23,13 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-fun PlayPauseButton(){
+fun PlayPauseButton(playing: Boolean){
 
     var _isPlaying by remember {
-        mutableStateOf(LMS.isPlaying)
+        mutableStateOf(playing)
     }
+    _isPlaying = playing
+    //println("PlayPauseButton is playing: $_isPlaying")
 
     IconToggleButton(
         checked = _isPlaying,

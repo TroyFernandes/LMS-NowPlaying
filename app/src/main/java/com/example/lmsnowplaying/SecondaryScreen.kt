@@ -93,6 +93,7 @@ fun PlayerScreen(){
     var artistArtUrl by remember { mutableStateOf("")}
     var artistDefaultArtUrl by remember { mutableStateOf("")}
     var albumArtUrl by remember { mutableStateOf("")}
+    var playing by remember { mutableStateOf(LMS.isPlaying) }
 
     LaunchedEffect(Unit){
         while (true){
@@ -100,6 +101,11 @@ fun PlayerScreen(){
             //println("Player MAC: ${LMS.playerMac}")
             //LMS.isPlaying
             if (LMS.playerMac != "00:00:00:00:00:00"){
+                CoroutineScope(Dispatchers.IO).launch{
+                    LMS.status()
+                    playing = LMS.isPlaying
+                }
+
                 CoroutineScope(Dispatchers.IO).launch {
                     val (_songName, _artistName, _coverId) = LMS.BigUpdate(LMS.playerMac)
                     if(_songName == "") return@launch
@@ -174,7 +180,7 @@ fun PlayerScreen(){
                 TextButton(onClick = {
 
                 }) {
-                    PlayPauseButton()
+                    PlayPauseButton(playing)
                 }
                 Spacer(modifier = Modifier.size(32.dp))
                 TextButton(onClick = {
@@ -311,7 +317,7 @@ fun GetArtistArt(
     val defaultPainter = rememberAsyncImagePainter(
         imageLoader = imageLoaderLMS,
         model = imageRequestLMS,
-        contentScale = ContentScale.FillBounds
+        contentScale = ContentScale.FillBounds,
     )
 
     val painter = rememberAsyncImagePainter(
