@@ -18,10 +18,10 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
-            android:banner="@drawable/app_icon_your_company"
+            android:banner="@drawable/app_tvbanner"
             android:exported="true"
-            android:icon="@drawable/app_icon_your_company"
-            android:logo="@drawable/app_icon_your_company"
+            android:icon="@drawable/app_tvbanner"
+            android:logo="@drawable/app_tvbanner"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.SplashScreenTheme">
             <intent-filter>
