@@ -32,7 +32,7 @@ object LMS{
         val obj = JSONObject(jsonData)
         val getObject = obj.getJSONObject("result")
 
-        var loop = getObject.getJSONArray("players_loop")
+        val loop = getObject.getJSONArray("players_loop")
         for (i in 0 until loop.length()) {
             val item = loop.getJSONObject(i)
             val name = item.getString("name")
@@ -49,7 +49,8 @@ object LMS{
     }
 
     suspend fun getSongInfo(playerMAC: String, songID: Int): JSONArray {
-        val reqString = "{\"method\": \"slim.request\", \"params\": [\"$playerMAC\", [\"songinfo\",\"-\",100,\"track_id:$songID\"]]}"
+        val reqString =
+            "{\"method\": \"slim.request\", \"params\": [\"$playerMAC\", [\"songinfo\",\"-\",100,\"track_id:$songID\"]]}"
 
         val requestBody = reqString.toRequestBody("application/json".toMediaTypeOrNull())
         val res = lmsApi.getCurrentSong(requestBody)
@@ -57,9 +58,8 @@ object LMS{
         val jsonData: String? = res.body()?.string()
         val obj = JSONObject(jsonData)
         val getObject = obj.getJSONObject("result")
-        val arr = getObject.getJSONArray("songinfo_loop")
 
-        return arr
+        return getObject.getJSONArray("songinfo_loop")
     }
 
     suspend fun playPause(){
@@ -70,7 +70,7 @@ object LMS{
             "{\"method\": \"slim.request\", \"params\": [\"$playerMac\", [\"play\"]]}"
         }
         val requestBody = reqString.toRequestBody("application/json".toMediaTypeOrNull())
-        val res = lmsApi.playPause(requestBody)
+        lmsApi.playPause(requestBody)
     }
 
     suspend fun playPause(play: Boolean){
@@ -111,7 +111,7 @@ object LMS{
         isPlaying = mode == "play"
     }
 
-    suspend fun BigUpdate(playerMAC: String): Triple<String, String, String> {
+    suspend fun update(playerMAC: String): Triple<String, String, String> {
         //Get the current playing song (returns the name and the ID)
         val reqString = "{\"method\": \"slim.request\", \"params\": [\"$playerMAC\", [\"status\", \"-\",1]]}"
         val requestBody = reqString.toRequestBody("application/json".toMediaTypeOrNull())
@@ -125,13 +125,13 @@ object LMS{
         var coverid = ""
 
         try {
-            var result_loop = getObject.getJSONArray("playlist_loop")
-            var first_result = result_loop.getJSONObject(0)
-            title = first_result.getString("title")
-            var id = first_result.getString("id")
+            val resultLoop = getObject.getJSONArray("playlist_loop")
+            val firstResult = resultLoop.getJSONObject(0)
+            title = firstResult.getString("title")
+            val id = firstResult.getString("id")
 
             //Take the id and get the artist (Returns the artist Name)
-            var res2 = getSongInfo(playerMAC, id.toInt())
+            val res2 = getSongInfo(playerMAC, id.toInt())
             artist = (res2.getJSONObject(2)).getString("artist")
 
             //take the id and get the album cover

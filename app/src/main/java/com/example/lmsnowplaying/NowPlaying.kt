@@ -107,7 +107,7 @@ fun PlayerScreen(){
                 }
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    val (_songName, _artistName, _coverId) = LMS.BigUpdate(LMS.playerMac)
+                    val (_songName, _artistName, _coverId) = LMS.update(LMS.playerMac)
                     if(_songName == "") return@launch
                     songName = _songName
                     artistName = _artistName
