@@ -11,24 +11,12 @@ import com.example.lmsnowplaying.network.logitechmediaserver.LMS
 suspend fun HandleButton(keyEvent: KeyEvent){
     //println(keyEvent)
     if (keyEvent.type == KeyEventType.KeyUp){
-        //whem
-        if(keyEvent.key == Key.MediaFastForward){
-            //println("Media Fast Forward Up")
-            LMS.next()
-        }else if (keyEvent.key == Key.MediaRewind){
-            //println("Media Rewind Up")
-            LMS.prev()
-        }
-        else if (keyEvent.key == Key.MediaPlayPause){
-            //println("Media Plau Pause Up")
-            LMS.playPause()
-        }
-        else if (keyEvent.key == Key.MediaPause){
-            LMS.playPause(false)
-        }
-        else if (keyEvent.key == Key.MediaPlay){
-            LMS.playPause(true)
+        when(keyEvent.key){
+            Key.MediaFastForward -> LMS.next()
+            Key.MediaRewind -> LMS.prev()
+            Key.MediaPlayPause -> LMS.playPause()
+            Key.MediaPause -> LMS.playPause(false)
+            Key.MediaPlay -> LMS.playPause(true)
         }
     }
-
 }
