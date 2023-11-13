@@ -124,7 +124,13 @@ fun PlayerScreen(){
                         //println("Encoded Name: $tempName")
 
                         artistDefaultArtUrl = "${BuildConfig.LMS_URL}/music/$_coverId/cover.jpg"
-                        artistArtUrl = "${BuildConfig.JELLYFIN_URL}/Artists/$tempName/Images/Backdrop/0"
+                        val jfUrl = JellyfinApi.GetArtistUrl(tempName)
+                        artistArtUrl = if(jfUrl.isNullOrEmpty()){
+                            "${BuildConfig.JELLYFIN_URL}/Artists/$tempName/Images/Backdrop/0"
+                        }else{
+                            jfUrl
+                        }
+
                     }
                     //println("big update")
                 }
@@ -214,7 +220,7 @@ fun GetAlbumArt(url: String){
                 .addInterceptor(BasicAuthInterceptor(BuildConfig.LMS_USERNAME,BuildConfig.LMS_PASSWORD))
                 .build()
         }
-        //.logger(DebugLogger())
+        //(DebugLogger())
         .build()
 
     val imageRequestLMS = ImageRequest.Builder(LocalContext.current)
