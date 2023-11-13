@@ -130,16 +130,19 @@ object LMS{
             title = firstResult.getString("title")
             val id = firstResult.getString("id")
 
-            //Take the id and get the artist (Returns the artist Name)
-            val res2 = getSongInfo(playerMAC, id.toInt())
-            artist = (res2.getJSONObject(2)).getString("artist")
+            if(id.first() != '-'){
+                //Take the id and get the artist (Returns the artist Name)
+                val res2 = getSongInfo(playerMAC, id.toInt())
+                artist = (res2.getJSONObject(2)).getString("artist")
 
-            //take the id and get the album cover
-            coverid = try {
-                (res2.getJSONObject(3)).getString("coverid")
-            }catch (e: JSONException){
-                ""
+                //take the id and get the album cover
+                coverid = try {
+                    (res2.getJSONObject(3)).getString("coverid")
+                }catch (e: JSONException){
+                    ""
+                }
             }
+
         }catch (e: JSONException){
             return Triple(title, artist, coverid)
         }
