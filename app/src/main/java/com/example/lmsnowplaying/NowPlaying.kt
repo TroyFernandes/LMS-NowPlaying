@@ -46,6 +46,7 @@ import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import coil.util.DebugLogger
 import com.commit451.coiltransformations.BlurTransformation
 import com.example.lmsnowplaying.composable.PlayPauseButton
 import com.example.lmsnowplaying.composable.PlayerSelector
