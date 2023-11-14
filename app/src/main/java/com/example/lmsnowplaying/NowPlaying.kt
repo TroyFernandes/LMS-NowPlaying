@@ -95,7 +95,6 @@ fun PlayerScreen(){
     var artistDefaultArtUrl by remember { mutableStateOf("")}
     var albumArtUrl by remember { mutableStateOf("")}
     var playing by remember { mutableStateOf(LMS.isPlaying) }
-
     LaunchedEffect(Unit){
         while (true){
             //println("LMS is playing: ${LMS.isPlaying}")
@@ -124,13 +123,14 @@ fun PlayerScreen(){
                         //println("Encoded Name: $tempName")
 
                         artistDefaultArtUrl = "${BuildConfig.LMS_URL}/music/$_coverId/cover.jpg"
-                        val jfUrl = JellyfinApi.GetArtistUrl(tempName)
-                        artistArtUrl = if(jfUrl.isNullOrEmpty()){
-                            "${BuildConfig.JELLYFIN_URL}/Artists/$tempName/Images/Backdrop/0"
+                        if(!_artistName.contains("[!\"#$%'()*+,-./:;\\\\<=>?@\\[\\]^_`{|}~]".toRegex())){
+                            artistArtUrl = "${BuildConfig.JELLYFIN_URL}/Artists/$tempName/Images/Backdrop/0"
                         }else{
-                            jfUrl
+                            val jfUrl = JellyfinApi.GetArtistUrl(_artistName)
+                            if (jfUrl != null) {
+                                artistArtUrl = jfUrl
+                            }
                         }
-
                     }
                     //println("big update")
                 }
