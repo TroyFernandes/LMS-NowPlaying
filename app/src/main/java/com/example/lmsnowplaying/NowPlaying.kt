@@ -95,11 +95,10 @@ fun PlayerScreen(){
     var artistDefaultArtUrl by remember { mutableStateOf("")}
     var albumArtUrl by remember { mutableStateOf("")}
     var playing by remember { mutableStateOf(LMS.isPlaying) }
+    var currentSong = ""
+
     LaunchedEffect(Unit){
         while (true){
-            //println("LMS is playing: ${LMS.isPlaying}")
-            //println("Player MAC: ${LMS.playerMac}")
-            //LMS.isPlaying
             if (LMS.playerMac != "00:00:00:00:00:00"){
                 CoroutineScope(Dispatchers.IO).launch{
                     LMS.status()
@@ -108,10 +107,11 @@ fun PlayerScreen(){
 
                 CoroutineScope(Dispatchers.IO).launch {
                     val (_songName, _artistName, _coverId) = LMS.update(LMS.playerMac)
-                    if(_songName == "") return@launch
+                    if(_songName == "" || _songName == currentSong) return@launch
+                    currentSong = _songName
                     songName = _songName
                     artistName = _artistName
-
+                    println("Refreshing")
                     if (_coverId == ""){
                         albumArtUrl = ""
                     }else{
