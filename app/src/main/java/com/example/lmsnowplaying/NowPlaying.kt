@@ -95,12 +95,10 @@ fun PlayerScreen(){
     var artistDefaultArtUrl by remember { mutableStateOf("")}
     var albumArtUrl by remember { mutableStateOf("")}
     var playing by remember { mutableStateOf(LMS.isPlaying) }
+    var currentSong = ""
 
     LaunchedEffect(Unit){
         while (true){
-            //println("LMS is playing: ${LMS.isPlaying}")
-            //println("Player MAC: ${LMS.playerMac}")
-            //LMS.isPlaying
             if (LMS.playerMac != "00:00:00:00:00:00"){
                 CoroutineScope(Dispatchers.IO).launch{
                     LMS.status()
@@ -109,10 +107,11 @@ fun PlayerScreen(){
 
                 CoroutineScope(Dispatchers.IO).launch {
                     val (_songName, _artistName, _coverId) = LMS.update(LMS.playerMac)
-                    if(_songName == "") return@launch
+                    if(_songName == "" || _songName == currentSong) return@launch
+                    currentSong = _songName
                     songName = _songName
                     artistName = _artistName
-
+                    println("Refreshing")
                     if (_coverId == ""){
                         albumArtUrl = ""
                     }else{
@@ -124,7 +123,14 @@ fun PlayerScreen(){
                         //println("Encoded Name: $tempName")
 
                         artistDefaultArtUrl = "${BuildConfig.LMS_URL}/music/$_coverId/cover.jpg"
-                        artistArtUrl = "${BuildConfig.JELLYFIN_URL}/Artists/$tempName/Images/Backdrop/0"
+                        if(!_artistName.contains("[!\"#$%'()*+,-./:;\\\\<=>?@\\[\\]^_`{|}~]".toRegex())){
+                            artistArtUrl = "${BuildConfig.JELLYFIN_URL}/Artists/$tempName/Images/Backdrop/0"
+                        }else{
+                            val jfUrl = JellyfinApi.GetArtistUrl(_artistName)
+                            if (jfUrl != null) {
+                                artistArtUrl = jfUrl
+                            }
+                        }
                     }
                     //println("big update")
                 }
@@ -214,7 +220,7 @@ fun GetAlbumArt(url: String){
                 .addInterceptor(BasicAuthInterceptor(BuildConfig.LMS_USERNAME,BuildConfig.LMS_PASSWORD))
                 .build()
         }
-        //.logger(DebugLogger())
+        //(DebugLogger())
         .build()
 
     val imageRequestLMS = ImageRequest.Builder(LocalContext.current)
