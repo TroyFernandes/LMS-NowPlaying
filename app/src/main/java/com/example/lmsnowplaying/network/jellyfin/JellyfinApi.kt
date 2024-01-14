@@ -79,7 +79,13 @@ object JellyfinApi {
             }else{
                 val search = searchApi.get(searchTerm = artistName, includeItemTypes = setOf(BaseItemKind.MUSIC_ARTIST))
                 if(search.content.searchHints.isNotEmpty()){
-                    imageUrl = imageApi.getItemImageUrl(itemId = search.content.searchHints.get(0).id, imageType = ImageType.BACKDROP)
+                    var _index = 0
+                    search.content.searchHints.forEachIndexed { index, e ->
+                        if (e.name.equals(artistName)){
+                            _index = index
+                        }
+                    }
+                    imageUrl = imageApi.getItemImageUrl(itemId = search.content.searchHints[_index].id, imageType = ImageType.BACKDROP)
                 }
             }
         }
